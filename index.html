@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vía Intrínseca y Fibrinolisis - Lab. Virtual Álvarez 2026</title>
+    <style>
+        :root {
+            --bg: #0a1628;
+            --card: #132238;
+            --card-border: #1e3a5f;
+            --cyan: #00d4ff;
+            --cyan-dim: rgba(0, 212, 255, 0.15);
+            --purple: #b967ff;
+            --purple-dim: rgba(185, 103, 255, 0.15);
+            --green: #2ecc71;
+            --green-dim: rgba(46, 204, 113, 0.15);
+            --red: #ff4757;
+            --yellow: #ffa502;
+            --text: #f1f2f6;
+            --text-dim: #bdc3c7;
+            --font: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--card-border);
+        }
+        .badge {
+            display: inline-block;
+            background: var(--cyan-dim);
+            color: var(--cyan);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            border: 1px solid rgba(0,212,255,0.3);
+        }
+        h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+            background: linear-gradient(90deg, var(--cyan), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            color: var(--text-dim);
+            font-size: 1.05rem;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-3px);
+            border-color: var(--cyan);
+        }
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .icon-circle {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+        .cyan-theme { --accent: var(--cyan); --dim: var(--cyan-dim); }
+        .purple-theme { --accent: var(--purple); --dim: var(--purple-dim); }
+        .green-theme { --accent: var(--green); --dim: var(--green-dim); }
+        .cyan-theme .icon-circle { background: var(--cyan-dim); color: var(--cyan); }
+        .purple-theme .icon-circle { background: var(--purple-dim); color: var(--purple); }
+        .green-theme .icon-circle { background: var(--green-dim); color: var(--green); }
+        .yellow-theme { --accent: var(--yellow); --dim: rgba(255, 165, 2, 0.15); }
+        .yellow-theme .icon-circle { background: rgba(255, 165, 2, 0.15); color: var(--yellow); }
+        .cyan-theme h2 { color: var(--cyan); }
+        .purple-theme h2 { color: var(--purple); }
+        .green-theme h2 { color: var(--green); }
+        .yellow-theme h2 { color: var(--yellow); }
+
+        /* Glosario cards */
+        .glossary-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 14px;
+            margin-top: 14px;
+        }
+        @media (min-width: 700px) {
+            .glossary-grid { grid-template-columns: 1fr 1fr; }
+        }
+        .gloss-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 14px 16px;
+            transition: border-color 0.2s;
+        }
+        .gloss-item:hover { border-color: var(--yellow); }
+        .gloss-item .term {
+            color: var(--yellow);
+            font-weight: 700;
+            font-size: 0.95rem;
+            display: block;
+            margin-bottom: 6px;
+        }
+        .gloss-item .full-name {
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            font-style: italic;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .gloss-item .def {
+            color: var(--text);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        .gloss-item .analogy {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px dashed var(--card-border);
+            font-size: 0.85rem;
+            color: var(--text-dim);
+        }
+        .gloss-item .analogy strong { color: var(--yellow); }
+
+        h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+        h3 {
+            font-size: 1rem;
+            color: var(--text-dim);
+            margin: 14px 0 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        p, li { font-size: 0.95rem; color: var(--text-dim); }
+        ul { padding-left: 20px; margin: 8px 0; }
+        li { margin-bottom: 6px; }
+        strong { color: var(--text); }
+
+        /* Flowchart */
+        .flow {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            margin: 16px 0;
+            justify-content: center;
+        }
+        .node {
+            background: var(--dim);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-align: center;
+            min-width: 70px;
+        }
+        .arrow {
+            color: var(--accent);
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .node-small {
+            background: rgba(255,255,255,0.05);
+            border: 1px dashed var(--text-dim);
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            padding: 6px 12px;
+        }
+
+        /* Highlight box */
+        .highlight {
+            background: rgba(255, 71, 87, 0.1);
+            border-left: 4px solid var(--red);
+            padding: 14px 18px;
+            border-radius: 0 12px 12px 0;
+            margin: 16px 0;
+        }
+        .highlight p { color: var(--text); margin: 0; }
+        .highlight .label {
+            color: var(--red);
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        /* Grid for parallel */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        @media (min-width: 700px) {
+            .grid-2 { grid-template-columns: 1fr 1fr; }
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+        th, td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--card-border);
+        }
+        th {
+            color: var(--cyan);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+        }
+        td { color: var(--text-dim); }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--card-border);
+            color: var(--text-dim);
+            font-size: 0.85rem;
+        }
+        .sources {
+            margin-top: 12px;
+            font-size: 0.75rem;
+            color: #64748b;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="badge">Laboratorio Clínico · Hemostasia</div>
+            <h1>VÍA INTRÍNSECA Y FIBRINÓLISIS</h1>
+            <p class="subtitle">Cuadro sinóptico para análisis de coagulación sanguínea</p>
+        </header>
+
+        <!-- VIA INTRINSECA -->
+        <div class="card cyan-theme">
+            <div class="card-header">
+                <div class="icon-circle">🔬</div>
+                <h2>Vía Intrínseca (de Contacto)</h2>
+            </div>
+            <p>Iniciada por <strong>contacto del plasma con superficies negativas</strong> (colágeno expuesto, vidrio, superficies activadas del tubo). No requiere factor tisular (TF). Se mide con el <strong>TTPa</strong> (Tiempo de Tromboplastina Parcial Activada).</p>
+
+            <h3>🧬 Cascada de Activación</h3>
+            <div class="flow">
+                <div class="node">Factor XII<br><span style="font-size:.7rem;font-weight:400">(Hageman)</span></div>
+                <div class="arrow">→</div>
+                <div class="node">XIIa</div>
+                <div class="arrow">→</div>
+                <div class="node">XI → XIa</div>
+                <div class="arrow">→</div>
+                <div class="node">IX + VIII<br><span style="font-size:.7rem;font-weight:400">(tenasa)</span></div>
+                <div class="arrow">→</div>
+                <div class="node">X → Xa</div>
+            </div>
+            <p style="text-align:center;font-size:0.8rem;margin-top:4px;color:var(--text-dim)">Requiere <strong>Ca²⁺</strong> y <strong>fosfolípidos de plaquetas</strong> (PL) como superficie catalítica</p>
+
+            <h3>⚠️ Deficiencias Clínicas</h3>
+            <table>
+                <tr><th>Factor</th><th>Deficiencia</th><th>Manifestación</th></tr>
+                <tr><td><strong>VIII</strong></td><td>Hemofilia A (clásica)</td><td>Sangrado en articulaciones (hemartrosis), músculos</td></tr>
+                <tr><td><strong>IX</strong></td><td>Hemofilia B (Christmas)</td><td>Similar a hemofilia A, cuadro hemorrágico severo</td></tr>
+                <tr><td><strong>XI</strong></td><td>Deficiencia de Rosenthal</td><td>Hemorragia leve a moderada (variable)</td></tr>
+                <tr><td><strong>XII</strong></td><td>Deficiencia de Hageman</td><td><strong style="color:var(--green)">Sin sangrado</strong> (cuadro asintomático)</td></tr>
+            </table>
+
+            <div class="highlight">
+                <span class="label">Dato Clave para el Laboratorio</span>
+                <p>El <strong>TTPa</strong> evalúa factores XII, XI, IX, VIII, X, V, II (protrombina) y fibrinógeno (I). Valor de referencia: aproximadamente <strong>25–35 segundos</strong> (varía según reactivo/analizador; verificar rango del laboratorio).</p>
+            </div>
+        </div>
+
+        <!-- FIBRINOLISIS -->
+        <div class="card purple-theme">
+            <div class="card-header">
+                <div class="icon-circle">🧽</div>
+                <h2>Fibrinolisis</h2>
+            </div>
+            <p>Proceso fisiológico de <strong>degradación del coágulo de fibrina</strong> una vez cicatrizada la lesión vascular. Evita trombosis excesiva y restablece el flujo sanguíneo.</p>
+
+            <h3>🔄 Proceso Central</h3>
+            <div class="flow">
+                <div class="node" style="--accent:var(--purple);--dim:var(--purple-dim)">tPA / uPA</div>
+                <div class="arrow">→</div>
+                <div class="node" style="--accent:var(--purple);--dim:var(--purple-dim)">Plasminógeno</div>
+                <div class="arrow">→</div>
+                <div class="node" style="--accent:var(--purple);--dim:var(--purple-dim)">Plasmina</div>
+                <div class="arrow">→</div>
+                <div class="node" style="--accent:var(--purple);--dim:var(--purple-dim)">Fibrina</div>
+                <div class="arrow">→</div>
+                <div class="node-small">FDPs + D-dímero</div>
+            </div>
+
+            <div class="grid-2">
+                <div>
+                    <h3>🛡️ Inhibidores</h3>
+                    <ul>
+                        <li><strong>PAI-1</strong>: inhibe tPA y uPA</li>
+                        <li><strong>α2-antiplasmina</strong>: neutraliza plasmina libre</li>
+                        <li><strong>Trombina activable fibrinolisis inhibitor (TAFI)</strong>: modula degradación</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>🧪 Marcador Clave</h3>
+                    <ul>
+                        <li><strong>D-dímero</strong>: producto específico de degradación de <strong>fibrina polimerizada/cruzada</strong></li>
+                        <li>Elevado en: TVP, TEP, DIC, trombosis</li>
+                        <li>Valor negativo: ayuda a <strong>descartar</strong> tromboembolia en pacientes de bajo riesgo</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="highlight" style="border-left-color: var(--purple); background: var(--purple-dim);">
+                <span class="label" style="color:var(--purple)">Equilibrio Hemostático</span>
+                <p>La fibrinolisis y la coagulación son procesos <strong>simultáneos y equilibrados</strong>. Si predomina la fibrinolisis → sangrado. Si predomina la coagulación → trombosis.</p>
+            </div>
+        </div>
+
+        <!-- CUADRO COMPARATIVO -->
+        <div class="card green-theme">
+            <div class="card-header">
+                <div class="icon-circle">📋</div>
+                <h2>Resumen Sinóptico: Vía Intrínseca vs. Fibrinolisis</h2>
+            </div>
+            <table>
+                <tr>
+                    <th>Característica</th>
+                    <th>Vía Intrínseca</th>
+                    <th>Fibrinolisis</th>
+                </tr>
+                <tr>
+                    <td><strong>Función</strong></td>
+                    <td>Formar coágulo estable</td>
+                    <td>Degradar coágulo ya formado</td>
+                </tr>
+                <tr>
+                    <td><strong>Inicio</strong></td>
+                    <td>Contacto con superficie negativa</td>
+                    <td>Liberación de tPA por endotelio</td>
+                </tr>
+                <tr>
+                    <td><strong>Enzima clave</strong></td>
+                    <td>Trombina (factor IIa)</td>
+                    <td>Plasmina</td>
+                </tr>
+                <tr>
+                    <td><strong>Prueba de laboratorio</strong></td>
+                    <td>TTPa</td>
+                    <td>D-dímero, Tiempo de lisis de euglobulinas</td>
+                </tr>
+                <tr>
+                    <td><strong>Trastorno por exceso</strong></td>
+                    <td>Trombosis</td>
+                    <td>Sangrado (fibrinolisis primaria)</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- GLOSARIO -->
+        <div class="card yellow-theme">
+            <div class="card-header">
+                <div class="icon-circle">📖</div>
+                <h2>Glosario: ¿Qué significan estas siglas?</h2>
+            </div>
+            <p style="margin-bottom:12px">Definiciones en lenguaje sencillo para entender el cuadro sinóptico sin memorizar de más.</p>
+
+            <div class="glossary-grid">
+                <div class="gloss-item">
+                    <span class="term">tPA</span>
+                    <span class="full-name">Activador tisular del plasminógeno</span>
+                    <span class="def">Sustancia que el cuerpo produce en el revestimiento de los vasos sanguíneos (endotelio). Su trabajo es <strong>activar la plasmina</strong> para que disuelva el coágulo cuando ya no se necesita.</span>
+                    <div class="analogy"><strong>🧰 Analogía:</strong> Es el <strong>desatornillador eléctrico</strong> del cuerpo. Llega cuando la herida ya cicatrizó y quita el "tapón" de fibrina para restablecer el flujo normal.</div>
+                </div>
+
+                <div class="gloss-item">
+                    <span class="term">uPA</span>
+                    <span class="full-name">Uroquinasa (activador del plasminógeno tipo uroquinasa)</span>
+                    <span class="def">Similar al tPA, pero se encuentra más en los <strong>riñones y la orina</strong>. También convierte el plasminógeno en plasmina. En medicina se usa como <strong>fármaco para deshacer trombos</strong> en urgencias.</span>
+                    <div class="analogy"><strong>🧰 Analogía:</strong> Es como un <strong>segundo desatornillador</strong> que guardas en otra caja de herramientas (los riñones). Hace el mismo trabajo, pero en otro taller del cuerpo.</div>
+                </div>
+
+                <div class="gloss-item">
+                    <span class="term">TVP</span>
+                    <span class="full-name">Trombosis Venosa Profunda</span>
+                    <span class="def">Formación de un <strong>coágulo (trombo) dentro de una vena profunda</strong>, generalmente en la pantorrilla o muslo. La pierna se hincha y duele. El verdadero peligro es que el coágulo se puede desprender.</span>
+                    <div class="analogy"><strong>🧰 Analogía:</strong> Es como una <strong>obstrucción en una tubería profunda de la casa</strong>. Si el tapón se rompe y viaja por las cañerías, puede atascar algo mucho más importante.</div>
+                </div>
+
+                <div class="gloss-item">
+                    <span class="term">TEP</span>
+                    <span class="full-name">Tromboembolia Pulmonar</span>
+                    <span class="def">El coágulo que se formó en la pierna (TVP) se <strong>desprende, viaja por el torrente sanguíneo y se atasca en los pulmones</strong>, bloqueando el paso de sangre oxigenada. Es una <strong>emergencia médica</strong> potencialmente mortal.</span>
+                    <div class="analogy"><strong>🧰 Analogía:</strong> El tapón de la tubería de la pierna se soltó, viajó por las cañerías principales y <strong>obstruyó el filtro de la alberca (los pulmones)</strong>. Si no se desatasca rápido, todo el sistema colapsa.</div>
+                </div>
+
+                <div class="gloss-item" style="grid-column: 1 / -1;">
+                    <span class="term">DIC</span>
+                    <span class="full-name">Coagulación Intravascular Diseminada</span>
+                    <span class="def">Trastorno donde <strong>toda la maquinaria de coagulación se activa al mismo tiempo en todo el cuerpo</strong>. Se consumen todas las plaquetas, fibrinógeno y factores de coagulación formando microtrombos. Luego, como no quedó "materia prima", el paciente sangra masivamente.</span>
+                    <div class="analogy"><strong>🧰 Analogía:</strong> Imagina que en toda la fábrica se encienden <strong>todas las alarmas de incendio a la vez</strong>. Los extintores se vacían por todos lados en pequeños fuegos, y cuando llega un incendio real ya no queda extintor. Resultado: primero trombos everywhere, luego sangrado imparable.</div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p><strong>Lab. Virtual Álvarez 2026 — CETIS 43</strong></p>
+            <p style="margin-top:6px">Docente: Biol. Ángel Enrique Torres Álvarez</p>
+            <div class="sources">
+                Fuentes: Guyton & Hall. Tratado de Fisiología Médica (14ª ed.); Hoffbrand & Pettit. Hematología Fundamental (6ª ed.);<br>
+                NOM-007-SSA3-2011 (procesamiento de muestras biológicas); Consenso Internacional de Coagulación ISTH.
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
